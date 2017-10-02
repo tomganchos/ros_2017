@@ -22,12 +22,6 @@ int getch(void)
 
 typedef geometry_msgs::Pose2D move;
 
-move gm(int x, int y) {
-	move res;
-	res.x = x;
-	res.y = y;
-}
-
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "published");
@@ -40,24 +34,31 @@ int main(int argc, char **argv)
 	std::cout << "Hey, yo!" << std::endl;
 	std::cout << "Use WASD to move around" << std::endl;
 	std::cout << "Q for exit" << std::endl;
+	std::cout << "Use M key to switch between FPS and MAP modes." << std::endl;
+	move pass;
 	while ((ch = getch()) != 'q')
 	{
 		switch(ch)
 		{
 		case 'w':
-			pub.publish(gm(0, -1));
+			pass.x = 0; pass.y = 1;
+			pub.publish(pass);
 			break;
 		case 's':
-			pub.publish(gm(0, 1));
+			pass.x = 0; pass.y = -1;
+			pub.publish(pass);
 			break;
 		case 'a':
-			pub.publish(gm(-1, 0));
+			pass.x = -1; pass.y = 0;
+			pub.publish(pass);
 			break;
 		case 'd':
-			pub.publish(gm(1, 0));
+			pass.x = 1; pass.y = 0;
+			pub.publish(pass);
 			break;
 		case 'm':
-			pub.publish(gm(2, 0));
+			pass.x = 0; pass.y = 2;
+			pub.publish(pass);
 			break;
 		}
 		ros::spinOnce();
