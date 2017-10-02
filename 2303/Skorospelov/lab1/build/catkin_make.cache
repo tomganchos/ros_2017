@@ -1,2 +1,0 @@
-maze
--DCATKIN_DEVEL_PREFIX=/home/leosko/ROS/ros_2017/2303/Skorospelov/lab1/devel -DCMAKE_INSTALL_PREFIX=/home/leosko/ROS/ros_2017/2303/Skorospelov/lab1/install -G Unix Makefiles

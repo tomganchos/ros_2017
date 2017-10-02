@@ -1,8 +1,0 @@
-prefix=/home/leosko/ROS/ros_2017/2303/Skorospelov/lab1/devel
-
-Name: maze
-Description: Description of maze
-Version: 0.0.1
-Cflags: 
-Libs: -L/home/leosko/ROS/ros_2017/2303/Skorospelov/lab1/devel/lib 
-Requires: 
