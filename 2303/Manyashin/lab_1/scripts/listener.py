@@ -84,7 +84,7 @@ def genarate_map(mx=5,my=5):
         # find a new cell to add
         nlst = []  # list of available neighbors
         for i in range(4):
-            nx = cx + dx[i];
+            nx = cx + dx[i]
             ny = cy + dy[i]
             if nx >= 0 and nx < mx and ny >= 0 and ny < my:
                 if maze[ny][nx] == 0:
@@ -122,11 +122,11 @@ def listener():
 
     mrobot.run_on(topik)
 
-    rospy.init_node('listener', anonymous=True)
+    #rospy.init_node('listener', anonymous=True)
 
-    rospy.Subscriber(topik, String, callback)
+    #rospy.Subscriber(topik, String, callback)
 
-    rospy.spin()
+    #rospy.spin()
 
 if __name__ == '__main__':
     listener()

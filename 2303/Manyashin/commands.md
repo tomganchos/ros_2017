@@ -10,15 +10,16 @@
 
 **rosrun turtlesim [название ноды]** - симуляция черепахи
 
-**catkin_create_pkg beginner_tutorials std_msgs rospy roscpp** - создание рос пакета
+**catkin_create_pkg lab_1 std_msgs rospy roscpp** - создание рос пакета
 
 **catkin_make** - создание приложения
 
-**rospack depends1 beginner_tutorials** - портирование приложения
+**rospack depends1 lab_1** - портирование приложения
 
-**rosrun beginner_tutorials listener.py** - включение писателя
+**rosrun lab_1 talker.py** - включение писателя
 
-**rosrun beginner_tutorials listener.py** - включение слушателя
+**rosrun lab_1 listener.py** - включение слушателя
+
 
 **Материалы по курсу**
 http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28python%29
