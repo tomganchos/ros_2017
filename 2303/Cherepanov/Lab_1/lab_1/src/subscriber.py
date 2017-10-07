@@ -2,21 +2,22 @@
 
 import turtle
 import rospy
+import pyautogui
 from std_msgs.msg import String
 
 class Pen(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
-        self.shape("square")
-        self.color("white")
+        self.shape('square')
+        self.color('white')
         self.penup()
         self.speed(0)
 
 class Player(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
-        self.shape("square")
-        self.color("blue")
+        self.shape('square')
+        self.color('blue')
         self.penup()
         self.speed(0)
 
@@ -25,32 +26,28 @@ class Player(turtle.Turtle):
         new_y = self.ycor() + 24
         if (new_x, new_y) not in walls:
             self.goto(new_x, new_y)
-            wn.update()
-            rospy.loginfo('I heard Up')
+            rospy.loginfo('I go up')
 
     def go_down(self):
         new_x = self.xcor()
         new_y = self.ycor() - 24
         if (new_x, new_y) not in walls:
             self.goto(new_x, new_y)
-            wn.update()
-            rospy.loginfo('I heard Down')
+            rospy.loginfo('I go down')
 
     def go_left(self):
         new_x = self.xcor() - 24
         new_y = self.ycor()
         if (new_x, new_y) not in walls:
             self.goto(new_x, new_y)
-            wn.update()
-            rospy.loginfo('I heard Left')
+            rospy.loginfo('I go left')
 
     def go_right(self):
         new_x = self.xcor() + 24
         new_y = self.ycor()
         if (new_x, new_y) not in walls:
             self.goto(new_x, new_y)
-            wn.update()
-            rospy.loginfo('I heard Right')
+            rospy.loginfo('I go right')
 
 level = [
 "XXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -80,7 +77,7 @@ level = [
 "XXXXXXXXXXXXXXXXXXXXXXXXX"
 ]
 
-def setup_maze(level, pen, player, walls):
+def setup_maze():
     for y in range(len(level)):
         for x in range(len(level[y])):
             character = level[y][x]
@@ -93,40 +90,41 @@ def setup_maze(level, pen, player, walls):
             if character == "P":
                 player.goto(screen_x, screen_y)
 
+def callback(data):
+    rospy.loginfo(rospy.get_caller_id() + ' > I heard %s', data.data)
+    if data.data == 'Left':
+        pyautogui.press('left')
+    if data.data == 'Right':
+        pyautogui.press('right')
+    if data.data == 'Up':
+        pyautogui.press('up')
+    if data.data == 'Down':
+        pyautogui.press('down')
+
 def subscriber():
-    wn = turtle.Screen()
-    wn.bgcolor("black")
-    wn.title("A Maze Game")
-    wn.setup(700, 700)
-
-    pen = Pen()
-    player = Player()
-    walls = []
-
-    setup_maze(level, pen, player, walls)
-
-    wn.tracer(0)
-
-    def callback(data):
-        rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.data)
-        if data.data == 'Left':
-            player.go_left
-        if data.data == 'Right':
-            player.go_right
-        if data.data == 'Up':
-            player.go_up
-        if data.data == 'Down':
-            player.go_down
-    #wn.update()
-
-    #turtle.listen()
-    #turtle.onkey(player.go_left, "Left")
-    #turtle.onkey(player.go_right, "Right")
-    #turtle.onkey(player.go_up, "Up")
-    #turtle.onkey(player.go_down, "Down")
     rospy.init_node('subscriber', anonymous=True)
     rospy.Subscriber('chatter', String, callback)
-    rospy.spin()
 
-if __name__ == '__main__':
-    subscriber()
+wn = turtle.Screen()
+wn.bgcolor('black')
+wn.title('Maze Game')
+wn.setup(700, 700)
+
+pen = Pen()
+player = Player()
+walls = []
+
+setup_maze()
+
+wn.tracer(0)
+
+turtle.listen()
+turtle.onkey(player.go_left, 'Left')
+turtle.onkey(player.go_right, 'Right')
+turtle.onkey(player.go_up, 'Up')
+turtle.onkey(player.go_down, 'Down')
+
+subscriber()
+
+while True:
+    wn.update()
