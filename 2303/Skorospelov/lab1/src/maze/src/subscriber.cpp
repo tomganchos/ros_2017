@@ -66,12 +66,13 @@ class Maze {
 			std::cout << "[MAP]:" << std::endl;
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < data[i].size(); j++) {
-					if (i == py && j == px) {
-						std::cout << '@';
-					}
-					else {
+					//MORE HARDCORE
+					//if (i == py && j == px) {
+					//	std::cout << '@';
+					//}
+					//else {
 						std::cout << data[i][j];
-					}
+					//}
 				}
 				std::cout << std::endl;
 			}
@@ -138,20 +139,21 @@ class Maze {
 				drawFPS();
 			}
 			else if (state == 2) {
+				drawMap();
 				drawFinal();
 			} else {
 				drawMap();
 			}
 		};
-		void move(int y, int x) {
+		bool move(int y, int x) {
 			//std::cout << "[DEBUG]: px=" << px << ", py=" << py << ", dir=" << dir << std::endl;
 			if (y == 2) {
 				switchState();
-				return;
+				return true;
 			}
 			if (state == 0) {
 				std::cout << "You can't look at map and move at the same time, too easy" << std::endl;
-				return;
+				return false;
 			}
 			if (x == 1) {
 				std::cout << "You turn right" << std::endl;
@@ -186,8 +188,8 @@ class Maze {
 			}
 			if (py == ty && px == tx) {
 				state = 2;
-				return;
 			}
+			return true;
 		};
 };
 
@@ -199,8 +201,9 @@ void chatterCallback(const geometry_msgs::Pose2D::ConstPtr& msg)
 		std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 	}
 	//ROS_INFO("Got: [%lf][%lf]", msg->x, msg->y);
-	maze.move(msg->y, msg->x);
-	maze.drawCurrent();
+	if (maze.move(msg->y, msg->x)) {
+		maze.drawCurrent();
+	}
 }
 
 int main(int argc, char **argv)
