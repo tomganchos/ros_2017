@@ -25,45 +25,54 @@ def draw_maze():
     clear()
     y = 0
 
+    global ux
+    global uy
+
     while y < size:
         x = 0
         line = ""
         while x < size:
             if x == ux and y == uy:
-                line = line + '@'
+                line += '@'
                 if level[y * size + x] == 2:
-                    print ("WIN!")
-                    print ("WIN!")
-                    print ("WIN!")
-                    print ("WIN!")
+                    ux = 1;
+                    uy = 1;
+                    draw_maze()
+                    return
             elif level[y * size + x] == 1:
-                line = line + '#'
+                line += '#'
             elif level[y * size + x] == 2:
-                line = line + 'F'
+                line += 'F'
             else:
-                line = line + ' '
+                line += ' '
             x=x+1
         print (line)
         y=y+1
 
 
+def free(cell):
+    if level[cell] == 0: return True
+    if level[cell] == 2: return True
+    return False
+
 
 def callback(data):
+
+    global ux, uy
     msg = data.data
     if msg == "up":
-        if level[(uy+1) * size + ux] == 0:
-            uy=uy+1
+        if free((uy+1) * size + ux):
+            uy+=1
     elif msg == "down":
-        if level[(uy-1) * size + ux] == 0:
-            ux=ux-1
+        if free((uy-1) * size + ux):
+            uy-=1
     elif msg == "left":
-        if level[(uy * size) + (ux-1)] == 0:
-            ux=ux-1
+        if free((uy * size) + (ux-1)):
+            ux-=1
     elif msg == "right":
-        if level[(uy * size) + (ux+1)] == 0:
+        if free((uy * size) + (ux+1)):
             ux=ux+1
 
-    rospy.loginfo(rospy.get_name()+"Go to %s",data.data)
     draw_maze()
 
 def listener():
@@ -73,4 +82,5 @@ def listener():
 
 
 if __name__ == '__main__':
+    draw_maze()
     listener()

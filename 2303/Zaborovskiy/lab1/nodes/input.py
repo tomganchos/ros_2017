@@ -17,21 +17,20 @@ def talker():
         if key == 'a' or key == 'A':
             #Left
             str = "left"
-        elif key == 'r' or key == 'R':
+        elif key == 'd' or key == 'D':
             #Right
             str = "right"
         elif key == 'w' or key == 'W':
             #Up
-            str = "up"
+            str = "down"
         elif key == 's' or key == 'S':
             #Down
-            str = "down"
+            str = "up"
         elif key == 'e' or key == 'E':
             #Exit
             exit = True
 
         if str != '' :
-            rospy.loginfo(str)
             pub.publish(String(str))
         rospy.sleep(1.0)
 
