@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 		switch(ch)
 		{
 		case 'w':
-			pass.x = 0; pass.y = 1;
+			pass.x = 0; pass.y = 1;	
 			pub.publish(pass);
 			break;
 		case 's':
