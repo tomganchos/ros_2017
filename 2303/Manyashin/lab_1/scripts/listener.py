@@ -42,16 +42,16 @@ class Robot:
     def run_on(self, topic):
         def run_callback(data):
             if data.data == 'up':
-                self.move(-1, 0)
-
-            if data.data == 'left':
                 self.move(0, -1)
 
+            if data.data == 'left':
+                self.move(-1, 0)
+
             if data.data == 'right':
-                self.move(0, 1)
+                self.move(1, 0)
 
             if data.data == 'down':
-                self.move(1, 0)
+                self.move(0, 1)
 
             if data.data == 'print':
                 self.show_location()
